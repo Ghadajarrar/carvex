@@ -38,8 +38,9 @@ export class ReservationsService {
     carName: car.name,
   });
 
-  const savedReservation = await newReservation.save();
+ const savedReservation = await newReservation.save();
 
+try {
   await this.mailService.sendReservationEmail('ghada.jarrarr@gmail.com', {
     userName: savedReservation.userName!,
     userEmail: savedReservation.userEmail!,
@@ -49,10 +50,12 @@ export class ReservationsService {
     endDate: savedReservation.endDate,
     location: savedReservation.pickupLocation,
   });
-
-  return savedReservation;
+} catch (e) {
+  console.error('Email failed but reservation saved');
 }
 
+return savedReservation;
+ }
 
   // Update reservation status (admin)
   async updateStatus(

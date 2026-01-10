@@ -1,8 +1,6 @@
 import { Controller, Get, Post, Patch, Param, Body, UseGuards, Delete, Request , UnauthorizedException } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RolesGuard } from '../auth/roles.guard';
-import { Roles } from '../auth/roles.decorator';
 import { CreateReservationDto } from './reservation.dto';
 
 
