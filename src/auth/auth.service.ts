@@ -61,29 +61,36 @@ export class AuthService {
 
   // Register new CLIENT user
   async register(data: any) {
-    if (!data) throw new BadRequestException('Body is missing');
-    if (!data.password) throw new BadRequestException('Password is required');
+  if (!data) throw new BadRequestException('Body is missing');
+  if (!data.password) throw new BadRequestException('Password is required');
 
-    const hashed = await bcrypt.hash(data.password, 10);
-
-    const user = await this.usersService.create({
-      name: data.name,
-      email: data.email,
-      phone: data.phone || '',
-      password: hashed,
-      role: 'CLIENT',
-      avatar: null,
-      reservations: [],
-    });
-
-    return {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      phone: user.phone || '',
-      avatar: user.avatar || null,
-      reservations: [],
-      role: user.role,
-    };
+  // Vérifier si l'email existe déjà
+  const existingUser = await this.usersService.findByEmail(data.email);
+  if (existingUser) {
+    throw new BadRequestException('Email already exists'); // <- ici on renvoie un 400
   }
+
+  const hashed = await bcrypt.hash(data.password, 10);
+
+  const user = await this.usersService.create({
+    name: data.name,
+    email: data.email,
+    phone: data.phone || '',
+    password: hashed,
+    role: 'CLIENT',
+    avatar: null,
+    reservations: [],
+  });
+
+  return {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone || '',
+    avatar: user.avatar || null,
+    reservations: [],
+    role: user.role,
+  };
+}
+
 }
