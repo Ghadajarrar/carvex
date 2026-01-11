@@ -8,7 +8,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-   origin: ['https://carvex-ten.vercel.app','https://carvex-frontend-y5sy.vercel.app','https://carvex-y5sy.vercel.app'], // exact Vercel domain
+   origin: ['https://carvex-ten.vercel.app','https://carvex-frontend-y5sy.vercel.app','https://carvex-y5sy.vercel.app','https://carvex-website.vercel.app'], // exact Vercel domain
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
