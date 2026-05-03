@@ -5,6 +5,7 @@ import { Roles } from './roles.decorator';
 import { RolesGuard } from './roles.guard';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { UnauthorizedException } from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {
@@ -22,9 +23,11 @@ export class AuthController {
     console.log('Login DTO received:', loginDto); // Debug
     const user = await this.authService.validateUser(loginDto.email, loginDto.password);
 
-    if (!user) {
-      return { message: 'Invalid credentials' };
-    }
+
+if (!user) {
+  throw new UnauthorizedException('Invalid credentials');
+}
+
 
     return this.authService.login(user);
   }
